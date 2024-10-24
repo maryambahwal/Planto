@@ -73,23 +73,20 @@ struct SetReminderView: View {
                     }
                     
                     
-                    // Use NavigationDestination for navigating to TodayReminderView
-//                    NavigationLink(destination: TodayReminderView(viewModel: viewModel)){
-                                                    ToolbarItem(placement: .navigationBarTrailing) {
-                            navigationButton("Save") {
-                                viewModel.savePlant()
-                                shouldNavigateToReminder = true
-                            }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        navigationButton("Save") {
+                            viewModel.savePlant()
+//                            dismiss()
+                            shouldNavigateToReminder = true
                         }
-//                    }
+                    }
                 }
             
-//            // Handle navigation using navigationDestination
-                        .navigationDestination(isPresented: $shouldNavigateToReminder) {
-                            TodayReminderView(viewModel: viewModel)
-                        }
+                .navigationDestination(isPresented: $shouldNavigateToReminder) {
+                    TodayReminderView(viewModel: viewModel)
+                }
         }
-       
+        
     }
     
     // Helper function for the buttons

@@ -100,6 +100,7 @@ struct PlantRow: View {
             
             HStack {
                            Button(action: {
+                               
                                viewModel.toggleCheck(for: plant)  // Use viewModel to update isChecked
                            }) {
                                ZStack {
