@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var plantViewModel = PlantViewModel()
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        if plantViewModel.plants.isEmpty {
+                    StartView() // Display the "Start" page if no plants are present
+                } else {
+                    TodayReminderView(viewModel: plantViewModel) // Display the "Today Reminder" page if there are plants
+                }
     }
 }
 

@@ -14,6 +14,12 @@
 		5C7E68042CC7806A00E9C090 /* PlantoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E68032CC7806A00E9C090 /* PlantoTests.swift */; };
 		5C7E680E2CC7806A00E9C090 /* PlantoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E680D2CC7806A00E9C090 /* PlantoUITests.swift */; };
 		5C7E68102CC7806A00E9C090 /* PlantoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E680F2CC7806A00E9C090 /* PlantoUITestsLaunchTests.swift */; };
+		5C7E681D2CC790FC00E9C090 /* PlantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E681C2CC790FC00E9C090 /* PlantViewModel.swift */; };
+		5C7E681F2CC7917200E9C090 /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E681E2CC7917200E9C090 /* Plant.swift */; };
+		5C7E68212CC791CC00E9C090 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E68202CC791CC00E9C090 /* StartView.swift */; };
+		5C7E68232CC791DD00E9C090 /* TodayReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E68222CC791DD00E9C090 /* TodayReminderView.swift */; };
+		5C7E68252CC7A3F100E9C090 /* SetReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E68242CC7A3F100E9C090 /* SetReminderView.swift */; };
+		5C7E68272CC9646800E9C090 /* AllRemindersCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7E68262CC9646800E9C090 /* AllRemindersCompletedView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +50,12 @@
 		5C7E68092CC7806A00E9C090 /* PlantoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlantoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C7E680D2CC7806A00E9C090 /* PlantoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantoUITests.swift; sourceTree = "<group>"; };
 		5C7E680F2CC7806A00E9C090 /* PlantoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5C7E681C2CC790FC00E9C090 /* PlantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantViewModel.swift; sourceTree = "<group>"; };
+		5C7E681E2CC7917200E9C090 /* Plant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
+		5C7E68202CC791CC00E9C090 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		5C7E68222CC791DD00E9C090 /* TodayReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayReminderView.swift; sourceTree = "<group>"; };
+		5C7E68242CC7A3F100E9C090 /* SetReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetReminderView.swift; sourceTree = "<group>"; };
+		5C7E68262CC9646800E9C090 /* AllRemindersCompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRemindersCompletedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +108,12 @@
 			children = (
 				5C7E67F22CC7806800E9C090 /* PlantoApp.swift */,
 				5C7E67F42CC7806800E9C090 /* ContentView.swift */,
+				5C7E68222CC791DD00E9C090 /* TodayReminderView.swift */,
+				5C7E681C2CC790FC00E9C090 /* PlantViewModel.swift */,
+				5C7E68262CC9646800E9C090 /* AllRemindersCompletedView.swift */,
+				5C7E68202CC791CC00E9C090 /* StartView.swift */,
+				5C7E68242CC7A3F100E9C090 /* SetReminderView.swift */,
+				5C7E681E2CC7917200E9C090 /* Plant.swift */,
 				5C7E67F62CC7806A00E9C090 /* Assets.xcassets */,
 				5C7E67F82CC7806A00E9C090 /* Preview Content */,
 			);
@@ -257,7 +275,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C7E68232CC791DD00E9C090 /* TodayReminderView.swift in Sources */,
+				5C7E68252CC7A3F100E9C090 /* SetReminderView.swift in Sources */,
 				5C7E67F52CC7806800E9C090 /* ContentView.swift in Sources */,
+				5C7E68212CC791CC00E9C090 /* StartView.swift in Sources */,
+				5C7E68272CC9646800E9C090 /* AllRemindersCompletedView.swift in Sources */,
+				5C7E681F2CC7917200E9C090 /* Plant.swift in Sources */,
+				5C7E681D2CC790FC00E9C090 /* PlantViewModel.swift in Sources */,
 				5C7E67F32CC7806800E9C090 /* PlantoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
