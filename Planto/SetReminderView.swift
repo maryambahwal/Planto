@@ -1,9 +1,15 @@
 import SwiftUI
 
 struct SetReminderView: View {
+    private var plant: Plant?
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = PlantViewModel()
     @State private var shouldNavigateToReminder = false
+    
+    init(plant: Plant? = nil) {
+        self.plant = plant
+    }
+    
     var body: some View {
         NavigationStack {
             List {
@@ -64,6 +70,15 @@ struct SetReminderView: View {
                         }
                     }
                 }
+                Section {
+                    Button("Delete Reminder") {
+                        dismiss()
+                    }
+                    .frame(width: 396, height: 36)
+                    .cornerRadius(10)
+                    .foregroundColor(Color(red: 234/255, green: 113/255, blue: 102/255))
+                    .font(.system(size: 20))
+                }
             }.listSectionSpacing(20)
                 .navigationTitle("Set Reminder")
                 .navigationBarTitleDisplayMode(.inline)
@@ -76,7 +91,7 @@ struct SetReminderView: View {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         navigationButton("Save") {
                             viewModel.savePlant()
-//                            dismiss()
+                            //                            dismiss()
                             shouldNavigateToReminder = true
                         }
                     }
@@ -85,7 +100,9 @@ struct SetReminderView: View {
                 .navigationDestination(isPresented: $shouldNavigateToReminder) {
                     TodayReminderView(viewModel: viewModel)
                 }
+            
         }
+        .navigationBarHidden(true)
         
     }
     
