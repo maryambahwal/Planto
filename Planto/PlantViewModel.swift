@@ -5,6 +5,7 @@
 import Foundation
 class PlantViewModel: ObservableObject {
     @Published var plantName: String = ""
+    @Published var selectedPlant: Plant?
     
     @Published var room: String = "Bedroom"
     let rooms = ["Bedroom", "Living Room", "Kitchen", "Balcony", "Bathroom"]
@@ -21,24 +22,56 @@ class PlantViewModel: ObservableObject {
     let waterAmounts = ["20-50 ml", "50-100 ml", "100-200 ml", "200-300 ml"]
     
     
-    @Published var plants: [Plant] = [
-        
-        //        Plant(name: "Pothos", room: "Bedroom", light: "Full sun", wateringFrequency: "Every 3 days", waterAmount: "20-50 ml"),
-        //        Plant(name: "Monstera", room: "Kitchen", light: "Full sun", wateringFrequency: "Once a week" , waterAmount: "20-50 ml")
-        
-    ]
+    @Published var plants: [Plant] = []
     
     // When the view model is initialized, load the saved plants
     init() {
         loadPlants()
     }
     
-    // Save plant info when the user adds a new plant
+    func deletePlant(_ plant: Plant) {
+        print("Attempting to delete plant: \(plant.name) with ID: \(plant.id)")
+        print("Current plants: \(plants.map { "\($0.name) with ID: \($0.id)" })") // Log current plants before deletion
+        if let index = plants.firstIndex(where: { $0.id == plant.id }) {
+            print("Found plant at index: \(index)")
+            plants.remove(at: index)
+            savePlants()  // Persist the updated list to UserDefaults
+        } else {
+            print("Plant not found in the array with ID: \(plant.id)")
+        }
+    }
+    
     func savePlant() {
-        let plant = Plant(name: plantName, room: room, light: light, wateringFrequency: wateringFrequency, waterAmount: waterAmount)
-        plants.append(plant)
-        savePlants()  // Persist plants to UserDefaults
-        print("Plant saved: \(plant)")
+        if let selectedPlant = selectedPlant, let index = plants.firstIndex(where: { $0.id == selectedPlant.id }) {
+            // Edit the existing plant
+            plants[index].name = plantName
+            plants[index].room = room
+            plants[index].light = light
+            plants[index].wateringFrequency = wateringFrequency
+            plants[index].waterAmount = waterAmount
+        } else {
+            // Add a new plant
+            let newPlant = Plant(
+                name: plantName,
+                room: room,
+                light: light,
+                wateringFrequency: wateringFrequency,
+                waterAmount: waterAmount
+            )
+            plants.append(newPlant)
+        }
+        savePlants() // Save changes to UserDefaults
+        clearFormFields() // Clear fields after saving
+    }
+    
+    // Clear fields after saving or when preparing a new plant
+    func clearFormFields() {
+        plantName = ""
+        room = rooms.first ?? ""
+        light = lights.first ?? ""
+        wateringFrequency = wateringFrequencies.first ?? ""
+        waterAmount = waterAmounts.first ?? ""
+        selectedPlant = nil
     }
     
     // Toggle the check status of a plant
@@ -60,17 +93,17 @@ class PlantViewModel: ObservableObject {
         }
     }
     
-    // Load plants from UserDefaults
     private func loadPlants() {
         if let savedPlants = UserDefaults.standard.data(forKey: "savedPlants") {
             let decoder = JSONDecoder()
             if let decodedPlants = try? decoder.decode([Plant].self, from: savedPlants) {
                 self.plants = decodedPlants
+                print("Plants loaded successfully: \(plants.map { "\($0.name) with ID: \($0.id)" })")
+            } else {
+                print("Failed to decode plants")
             }
+        } else {
+            print("No saved plants found in UserDefaults")
         }
-    }
-    func deletePlants(at offsets: IndexSet) {
-        plants.remove(atOffsets: offsets)
-        savePlants()  // Persist the updated list to UserDefaults
     }
 }

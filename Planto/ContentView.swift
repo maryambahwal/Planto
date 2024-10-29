@@ -10,7 +10,7 @@ struct ContentView: View {
     @ObservedObject var plantViewModel = PlantViewModel()
     var body: some View {
         if plantViewModel.plants.isEmpty {
-            StartView() // Display the "Start" page if no plants are present
+            StartView(viewModel: plantViewModel) // Display the "Start" page if no plants are present
         } else {
             TodayReminderView(viewModel: plantViewModel) // Display the "Today Reminder" page if there are plants
         }

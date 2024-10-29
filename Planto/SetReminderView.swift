@@ -3,11 +3,11 @@ import SwiftUI
 struct SetReminderView: View {
     private var plant: Plant?
     @Environment(\.dismiss) var dismiss
-    @StateObject private var viewModel = PlantViewModel()
     @State private var shouldNavigateToReminder = false
-    
-    init(plant: Plant? = nil) {
-        self.plant = plant
+    @ObservedObject var viewModel: PlantViewModel
+    init(plant: Plant? = nil, viewModel: PlantViewModel) {
+        self.plant = plant ?? Plant(name: "", room: "", light: "", wateringFrequency: "", waterAmount: "")
+        self.viewModel = viewModel
     }
     
     var body: some View {
@@ -72,6 +72,10 @@ struct SetReminderView: View {
                 }
                 Section {
                     Button("Delete Reminder") {
+                        if let plant = plant {
+                            print("Deleting plant with ID: \(plant.id)")
+                            viewModel.deletePlant(plant)
+                        }
                         dismiss()
                     }
                     .frame(width: 396, height: 36)
@@ -90,20 +94,23 @@ struct SetReminderView: View {
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
                         navigationButton("Save") {
-                            viewModel.savePlant()
-                            //                            dismiss()
-                            shouldNavigateToReminder = true
+                            if let plant = plant {
+                                viewModel.savePlant() // Save or update the plant in UserDefaults
+                            }
+                            dismiss() // Close the view after saving
                         }
                     }
                 }
-            
                 .navigationDestination(isPresented: $shouldNavigateToReminder) {
                     TodayReminderView(viewModel: viewModel)
                 }
-            
         }
-        .navigationBarHidden(true)
-        
+        .onDisappear {
+            if !viewModel.plantName.isEmpty {
+                viewModel.savePlant()
+            }
+        }
+        .navigationBarBackButtonHidden(true)
     }
     
     // Helper function for the buttons
@@ -115,5 +122,14 @@ struct SetReminderView: View {
 }
 
 #Preview {
-    SetReminderView()
+    let samplePlant = Plant(
+        name: "Pothos",
+        room: "Living Room",
+        light: "Indirect Light",
+        wateringFrequency: "Weekly", waterAmount: "50-100 ml"
+    )
+    
+    let sampleViewModel = PlantViewModel()
+    
+    return SetReminderView(plant: samplePlant, viewModel: sampleViewModel)
 }

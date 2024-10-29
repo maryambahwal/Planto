@@ -3,11 +3,11 @@ import Foundation
 
 class Plant: ObservableObject, Identifiable, Codable {
     var id = UUID()  // Use UUID to identify each plant
-    @Published var name: String
-    @Published var room: String
-    @Published var light: String
-    @Published var wateringFrequency: String
-    @Published var waterAmount: String
+    @Published var name: String = ""
+    @Published var room: String = ""
+    @Published var light: String = ""
+    @Published var wateringFrequency: String = ""
+    @Published var waterAmount: String = ""
     @Published var isChecked: Bool = false
     
     // Conformance to Codable
@@ -23,6 +23,8 @@ class Plant: ObservableObject, Identifiable, Codable {
         self.wateringFrequency = wateringFrequency
         self.waterAmount = waterAmount
     }
+    // Default initializer
+    init() { }
     
     // Required methods for Codable conformance
     required init(from decoder: Decoder) throws {

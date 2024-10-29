@@ -4,6 +4,7 @@ struct TodayReminderView: View {
     @ObservedObject var viewModel: PlantViewModel
     @State private var isSetReminderPresented = false
     @Environment(\.colorScheme) var colorScheme
+    @State private var selectedPlant: Plant?
     
     private var allPlantsChecked: Bool {
         viewModel.plants.allSatisfy { $0.isChecked }
@@ -41,6 +42,8 @@ struct TodayReminderView: View {
                 HStack {
                     Spacer()
                     Button(action: {
+                        viewModel.selectedPlant = nil // Clear selectedPlant to indicate a new entry
+                        viewModel.clearFormFields() // Reset fields for a new plant
                         isSetReminderPresented.toggle()
                     }) {
                         HStack {
@@ -55,7 +58,7 @@ struct TodayReminderView: View {
                         .foregroundColor(Color(red: 40/255, green: 224/255, blue: 168/255))
                     }
                     .sheet(isPresented: $isSetReminderPresented) {
-                        SetReminderView()
+                        SetReminderView(plant: viewModel.selectedPlant, viewModel: viewModel)
                     }
                     Spacer()
                 }
@@ -70,27 +73,39 @@ struct TodayReminderView: View {
     private var plantListView: some View {
         List {
             ForEach(viewModel.plants) { plant in
-                PlantRow(plant: plant, viewModel: viewModel)
-                    .padding(.horizontal)
-                    .background(Color.black) // Set background color for PlantRow
-                    .listRowBackground(Color.black) // Set the List row background to black
-                    .swipeActions {
-                        Button {
-                            if let index = viewModel.plants.firstIndex(where: { $0.id == plant.id }) {
-                                viewModel.deletePlants(at: IndexSet(integer: index))
-                            }
-                        } label: {
-                            Label("", systemImage: "trash")
-                        }
-                        .tint(.red)
-                    }
-            }
-            .onDelete { indexSet in
-                viewModel.deletePlants(at: indexSet)
+                plantRow(for: plant)
             }
         }
         .background(Color.black)
         .listStyle(PlainListStyle())
+    }
+    
+    @ViewBuilder
+    private func plantRow(for plant: Plant) -> some View {
+        PlantRow(plant: plant, viewModel: viewModel)
+            .padding(.horizontal)
+            .background(Color.black)
+            .listRowBackground(Color.black)
+            .onTapGesture {
+                viewModel.selectedPlant = plant
+                viewModel.plantName = plant.name
+                viewModel.room = plant.room
+                viewModel.light = plant.light
+                viewModel.wateringFrequency = plant.wateringFrequency
+                viewModel.waterAmount = plant.waterAmount
+                isSetReminderPresented = true
+            }
+            .sheet(item: $selectedPlant) { plant in
+                SetReminderView(plant: plant, viewModel: viewModel)
+            }
+            .swipeActions {
+                Button {
+                    viewModel.deletePlant(plant)
+                } label: {
+                    Label("", systemImage: "trash")
+                }
+                .tint(.red)
+            }
     }
     
     struct PlantRow: View {
@@ -115,9 +130,7 @@ struct TodayReminderView: View {
                     .background(Color.black)
                 }
                 .buttonStyle(PlainButtonStyle())
-                
-                // NavigationLink for plant details
-                NavigationLink(destination: SetReminderView(plant: plant)) {
+                NavigationLink(destination: SetReminderView(plant: plant, viewModel: viewModel)) {
                     VStack(alignment: .leading, spacing: 0) {
                         HStack {
                             Image(systemName: "paperplane")
